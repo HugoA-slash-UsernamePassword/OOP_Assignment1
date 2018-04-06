@@ -36,9 +36,8 @@ namespace MonkQuest.Player
         private float speed; //Set to the values below depending on whether the player is crouching or sprinting
         public float walkSpeed = 6, crouchSpeed = 2, sprintSpeed = 14;
         public float gravity = 20.0f;
-        #endregion
         [Space(3)]
-
+        #endregion
         #region Reference
         [Header("Component Reference")]
         private CharacterController charC; //Reference to character controller
@@ -81,8 +80,7 @@ namespace MonkQuest.Player
             //GUI Box for the healthbar background
             GUI.Box(new Rect(2 * scrW, 0.4f * scrH, 2 * scrW, 0.3f * scrH), "");
             //GUI Box for current health
-            GUI.Box(new Rect(2 * scrW, 0.4f * scrH, curHealth * (2 * scrW) / maxHealth, 0.3f * scrH), "", healthStyle);
-
+            GUI.Box(new Rect(2 * scrW, 0.4f * scrH, curHealth * (2 * scrW) / maxHealth, 0.3f * scrH), "");
             //STAMNINA
             //GUI Box for the stamina background
             GUI.Box(new Rect(2 * scrW, 1.2f * scrH, 2 * scrW, 0.3f * scrH), "");
@@ -128,14 +126,24 @@ namespace MonkQuest.Player
                 if (Input.GetKey(KeyCode.C)) //If C is being pressed
                 {
                     speed = crouchSpeed; //The player is crouching and walks slower
+                    if (curStamina < maxStamina) //The player is not running and therefore regains stamina
+                    {
+                        curStamina++;
+                    }
                 }
                 else if (Input.GetKey(KeyCode.LeftShift) && run == true) //Else If shift is being pressed
                 {
                     speed = sprintSpeed; //The player is sprinting and their speed is increased
+                    curStamina--;
+
                 }
                 else //Else they are walking
                 {
                     speed = walkSpeed;
+                    if (curStamina < maxStamina) //The player is not running and therefore regains stamina
+                    {
+                        curStamina++;
+                    }
                 }
                 if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
